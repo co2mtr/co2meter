@@ -1,0 +1,23 @@
+{
+    "school": "",
+    "classid": "",
+    "pupils": "",
+    "roomsize": "",
+    "ledgreen": "300",
+    "ledyellow": "1000",
+    "ledred":  "1400" ,
+    "tempoffset": "0",
+    "ssid": "",
+    "passwd": "",
+    "mdnsname": "",
+    "mqtt_broker": "149.201.87.27",
+    "mqtt_passwd": "qi8fWQ747uK2SWlsz7bd",
+    "mqtt_user": "co2meter",
+    "mqtt_port": "1883",
+    "mqtt_prefix": "co2meter/measurements",
+    "devicemode": "LOCALAP",
+    "displayon": "1",
+    "displaymode": "D2", 
+    "ABC": "1",
+    "defaultCV": "400"    
+}

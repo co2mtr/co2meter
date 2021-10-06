@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!-- Parts based on code from Rui Santos (https://RandomNerdTutorials.com) -->
+<html lang="de" style="text-align:left">
+
+  <!-- --------------------------- HEAD ---------------------------- -->
+  <head>
+
+    <title>CO2 Meter</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+
+  <!-- --------------------------- BODY ---------------------------- -->
+  <body>
+
+    <!-- Tab links -->
+    <div class="tab">
+      <button class="tablinks active" onclick="openTab(event, 'Schule')" id="defaultOpen">Schule</button>
+      <button class="tablinks" onclick="openTab(event, 'Betriebsart')">Betriebsart</button>
+      <button class="tablinks" onclick="openTab(event, 'WiFi')">WiFi</button>
+      <button class="tablinks" onclick="openTab(event, 'MQTT')">MQTT</button>
+      <button class="tablinks" onclick="openTab(event, 'Grenzwerte')">Grenzwerte</button>
+      <button class="tablinks" onclick="openTab(event, 'Uhr')">Uhr</button>
+      <button class="tablinks" onclick="openTab(event, 'Kalibrierung')">Kalibrierung</button>
+      <button class="tablinks active" onclick="toData()">Messwerte</button>
+
+    <div class="tab">
+      <p class="timedate">%DEVICENAME%-%SENSORSN%</p>
+      <p id="timedate" class="timedate">%TIMEDATE%</p> 
+
+    </div>
+    </div>
+
+
+    <form action="/post" method ="post">
+
+      <div id="Schule" class="tabcontent">
+	<h3>Schule</h3>
+	<p class="subh">Geben Sie hier die Daten der Klasse ein..</p>
+
+	<label for="school">Schule:</label><br>
+	<input type="text" name="school"  value="%CONFIGSCHOOL%"><br><br>
+	<label for="classid">Klasse:</label><br>
+	<input type="text"  value="%CONFIGCLASS%" name="classid"><br><br>
+	<label for="pupils">Anzahl der Sch&uuml;ler:</label><br>
+	<input type="text"  value="%CONFIGPUPILS%" name="pupils"><br><br>
+	<label for="roomsize">Gr&ouml;&szlig;e des Klassenraums in  [m<sup>3</sup>]:</label>  <br>
+	<input type="text"  value="%CONFIGROOMSIZE%" name="roomsize"><br> <br>
+
+	<input type="submit" name="save" value="Speichern">
+	<input type="submit" name="save" value="Speichern+Start">  
+      </div>
+
+
+      <div id="WiFi" class="tabcontent">
+	<h3>WiFI</h3>
+	<p class="subh">Login-Daten WiFi</p>
+
+	<label for="ssid">SSID:</label><br>
+	<input type="text"  value="%CONFIGSSID%" name="ssid"><br><br>
+	<label for="passwd">Passwort:</label><br>
+	<input type="password"  value="%CONFIGPASSWD%" name="passwd"><br><br>
+	<label for="mdnsname">mDNSname:</label><br>
+	<input type="text"  value="%CONFIGMDNSNAME%" name="mdnsname"><br><br>
+
+	<input type="submit" name="save" value="Speichern">
+	<input type="submit" name="save" value="Speichern+Start">
+      </div>
+
+
+      <div id="MQTT" class="tabcontent">
+	<h3>MQTT</h3>
+	<p class="subh">Login-Daten MQTT</p>
+
+	<label for="mqttbrokerip">MQTT Broker IP:</label><br>
+	<input type="text"  value="%CONFIGMQTTBROKERIP%" name="mqttbrokerip"><br><br>
+	<label for="mqttbrokerport">MQTT Broker Port:</label><br>
+	<input type="text"  value="%CONFIGMQTTPORT%" name="mqttbrokerport"><br><br>
+	<label for="mqttbrokeruser">MQTT Broker User:</label><br>
+	<input type="text"  value="%CONFIGMQTTUSER%" name="mqttbrokeruser"><br><br>
+	<label for="mqttbrokerpasswd">MQTT Broker Passwort:</label><br>
+	<input type="password"  value="%CONFIGMQTTPASSWD%" name="mqttbrokerpasswd"><br><br>
+	<label for="mqttprefix">MQTT Topic Pr&auml;fix:</label><br>
+	<input type="text"  value="%CONFIGMQTTPREFIX%" name="mqttprefix"><br><br>
+
+	<input type="submit" name="save" value="Speichern">
+	<input type="submit" name="save" value="Speichern+Start">
+      </div>
+
+
+      <div id="Betriebsart" class="tabcontent">
+	<h3>Betriebsart</h3>
+	<p class="subh">Festlegen der Betriebsart.</p>
+
+	<h2>Display</h2>
+	<input type="checkbox" id="dm1" name="dm1" value="DISPLAY" %CONFIGDISPLAY%>
+	<label for="dm1"> Messwerte im Display anzeigen</label><br>
+	<input type="radio" id="display1" name="display" value="D1" %CONFIGDISP1%>
+	<label for="display1">Display Layout 1</label><br>
+	<input type="radio" id="display2" name="display" value="D2" %CONFIGDISP2%>
+	<label for="display2"> Display Layout 2</label><br>
+	<br>
+	<h2> WiFI</h2>
+	<input type="radio" id="dm2" name="wifimode" value="WIFI" %CONFIGWIFI%>
+	<label for="dm2">Sensor mit WLAN verbinden</label><br>
+	<input type="radio" id="dm3" name="wifimode" value="MQTT" %CONFIGMQTT%>
+	<label for="dm3">Daten an MQTT Broker senden</label><br>
+	<input type="radio" id="dm5" name="wifimode" value="FHMQTT" %CONFIGFHMQTT%>
+	<label for="dm5">Daten an FH Aachen senden</label><br>
+	<input type="radio" id="dm4" name="wifimode" value="LOCALAP" %CONFIGLOCALAP%>
+	<label for="dm4">Daten im Browser anzeigen</label><br><br>
+
+
+	<input type="submit" name="save" value="Speichern">
+	<input type="submit" name="save" value="Speichern+Start">
+	<!--</fieldset>-->
+      </div>
+
+
+      <div id="Grenzwerte" class="tabcontent">
+	<h3>Sensorparameter</h3>
+	<p class="subh">Parameterisieren Sie hier das Ger&auml;t.</p>
+
+	<label for="ledgreen">Untergrenze Gr&uuml;n:</label><br>
+	<input type="text" name="ledgreen"  value="%CONFIGLEDGREEN%"><br><br>
+	<label for="ledyellow">Untergrenze Gelb:</label><br>
+	<input type="text"  value="%CONFIGLEDYELLOW%" name="ledyellow"><br><br>
+	<label for="ledred">Untergrenze Rot:</label><br>
+	<input type="text"  value="%CONFIGLEDRED%" name="ledred"><br><br>
+	
+	<label for="tempoffset">Temperatur OffSet:</label><br>
+	<input type="text"  value="%CONFIGTEMPOFFSET%" name="tempoffset"><br><br>
+
+	
+	<input type="submit" name="save" value="Speichern">
+	<input type="submit" name="save" value="Speichern+Start">
+      </div>
+
+
+      <div id="Uhr" class="tabcontent">
+	<h3>Interne Uhr</h3>
+	<p class="subh">Setzen von Uhrzeit und Datum</p>
+
+	<label for="datum">Geben Sie das aktuelle Datum ein:</label><br>
+	<input type="date" id="datum" name="datum" ><br><br>
+	<!--  value="%DATE%" -->
+
+	<label for="uhrzeit">Geben Sie die aktuelle Uhrzeit ein:</label><br>
+	<input type="time" id="uhrzeit" name="uhrzeit" ><br><br>
+
+	<input type="submit" name="setclock" value="Setzen">
+      </div>
+
+    </form>
+
+
+    <form action="/calib" method ="post">
+
+      <div id="Kalibrierung" class="tabcontent">
+	<h3>Kalibrierung</h3>
+	<p class="subh">Kalibrierung des Sensors.</p>
+
+	<input type="checkbox" id="ABC" name="ABC" value="ABC" %CONFIGABC%>
+	<label for="ABC"> Automatic Baseline Calibration</label><br>
+
+	<input type="submit" name="save" value="Speichern">
+	<input type="submit" name="save" value="Speichern+Start">
+
+	<br /><br />
+
+	Bevor Sie die Kalibrierung durchf&uuml;hren, lesen Sie bitte genau
+	die Bedienungsanleitung bzw. das Datenblatt des Senors. <br>
+  
+	<label for="calibval">Gegen CO2-Wert kalibrieren:</label>
+	<input type="text" name="calibval"  value="%CONFIGDEFAULTCV%"  %CONFIGMHZ%>
+	ppm <br><br>
+	
+	<input type="submit" name="calibrate" value="Kalibrierung jetzt starten">
+
+      </div>
+
+    </form>
+
+  </body>
+
+  <!-- --------------------------- SCRIPT -------------------------- -->
+
+<script src = "timedate.js"></script>
+
+<script>
+      
+      function toData() {
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+      location.href = "/data";
+      
+      }
+      };
+      xhttp.open("GET", "/toData", true);
+      xhttp.send();
+}
+
+      
+document.getElementById("defaultOpen").click();
+
+function openTab(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+    
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+	tabcontent[i].style.display = "none";
+    }
+    
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+	tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+window.addEventListener('load', (event) => {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+     if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("timedate").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "/timedate", true);
+    xhttp.send();
+});
+
+      setInterval(function() {
+document.getElementById('timedate').innerHTML= advanceTimedate(document.getElementById('timedate').innerHTML);
+},1000);
+
+</script>
+
+</html>

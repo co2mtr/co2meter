@@ -1,0 +1,244 @@
+
+html {
+  font-family: Arial;
+  display: inline-block;
+  margin: 0px ;
+  text-align: center;
+  position:relative;
+}
+h1 {
+    color: rgb(50, 214, 214)  ;
+    font-size: 30px;
+#  padding: 2vh;
+}
+p {
+  font-size: 1.2rem;
+}
+
+p.subh {
+    font-size: small;
+    text-align: left;
+}
+
+.timedate {
+    font-size: small;
+    text-align: right;
+}
+
+.button {
+  display: inline-block;
+  background-color: #008CBA;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 16px 40px;
+  text-decoration: none;
+  font-size: 30px;
+  margin: 2px;
+  cursor: pointer;
+}
+.button2 {
+  background-color: #f44336;
+}
+.units {
+  font-size: 1.2rem;
+ }
+.sensor-labels {
+  font-size: 16px;
+  verti=cal-align:middle;
+  #  padding-bottom: 15px;
+}
+
+
+hr.rounded {
+  border-top: 8px solid #bbb;
+  border-radius: 5px;
+}
+
+td.linebreak {
+     word-wrap: break-word;   
+    width: 50%;
+}
+
+table {
+    margin: 0px;
+    border-collapse: collapse;
+    padding: 0px;
+}
+
+form {
+    padding-top: 0px;
+    margin: 0px;
+    padding: 0px;
+
+}
+
+
+.form-html {
+
+padding-top: 0px;
+
+}
+
+.form-line {
+
+padding-top: 0px;
+}
+
+
+input, select, textarea, label {
+    padding:5px;
+    font-family: inherit;
+    font-size: 110%;
+}
+button, submit {
+    font-family: inherit;
+    font-size: 110%;
+
+}
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+.css-ampel {
+  display: inline-block;
+  width: 147px;
+  height: 30px;
+  border-radius: 0px;
+  position: relative;
+  background-color: black;
+  zoom: 2.0;
+}
+
+
+.css-ampel span,
+.css-ampel:before,
+.css-ampel:after {
+    content: "";
+    color: white;
+    position: absolute;
+    border-radius: 0px;
+    width: 45px;
+    height: 26px;
+    left: 3px;
+}
+
+ .css-ampel:before { 
+     top: 2px;     
+     background-color: dimgrey; 
+//     background-color: black; 	
+ }
+
+ 
+ .css-ampel:after { 
+    top: 2px;
+    left: 51px;
+    background-color: yellow;
+    background-color: dimgrey;
+
+ } 
+
+.css-ampel span{
+    top: 2px;
+    left: 99px;
+    background-color: dimgrey;
+//    background-color: red;
+//    background-color: black;
+	
+}
+
+
+.ampelgruen:before {
+    top: 2px;
+    background-color: limegreen;
+    box-shadow: 0 0 20px limegreen;
+	
+}
+
+.ampelgelb:after  {
+    top: 2px;
+    background-color: yellow;
+    box-shadow: 0 0 20px yellow;	
+}
+
+
+ .ampelrot:after { 
+     background-color: yellow; 
+     box-shadow: 0 0 20px yellow; 
+
+ } 
+
+.ampelrot span {
+    background-color: red;
+    box-shadow: 0 0 20px red;
+
+ } 
+
+
+}
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  color: rgb(50, 214, 214);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #76D7C4;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tab:after {
+    content: "";
+    display: table;
+    clear: both;
+
+}
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+.column{
+    float: left;
+}
+
+.left {
+    width: 50%;
+}
+
+.right {
+    width: 50%;
+}
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+

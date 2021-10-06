@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!-- Parts based on code from Rui Santos (https://RandomNerdTutorials.com) -->
+<html>
+
+<!-- --------------------------- HEAD ---------------------------- -->
+<head>
+<title>CO2 Meter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<!-- --------------------------- BODY ---------------------------- -->
+<body>
+<div class="tab">
+  <button class="tablinks active"
+  onclick="toConfig()">Konfiguration</button>
+  <p id="devicename" class="timedate">%DEVICENAME%-%SENSORSN%</p>
+  <p id="timeanddate" class="timedate">%TIMEDATE%</p> 
+</div>
+
+
+<h1>CO2 Meter</h1>
+
+<div class="sensor-labels">
+  <span class="sensor-labels">CO<sub>2</sub> Gehalt: </span>
+  <span id="co2">%CO2%</span> ppm <br>
+  <span >Temperatur: </span>
+  <span id="temperature">%TEMPERATURE%</span> <sup class="units">&deg;</sup>C<br>
+  <span >rel. Luftfeuchte: </span>
+  <span id="rH">%RH%</span>&percnt; </p>
+</div>
+
+<p>
+<span id="trafficlight" class=""><span></span></span>
+</p>
+
+<div style="font-size:0;color:transparent;"><span id="yellow">%YELLOW%</span><span id="red">%RED%</span>
+</div>
+
+<div class="chart-container" style="position: relative; height:200px">
+  <canvas id="Chart" width="400" height="200"></canvas>
+</div>
+</body> 
+
+<!-- --------------------------- SCRIPT -------------------------- -->
+<script src = "Chart.min.js"></script>	
+<script src = "timedate.js"></script>
+<script>
+
+ function toConfig() {
+    location.href = "/config";
+}
+
+
+
+let measurements = {};
+let mdata = [];
+let mlabel = [];
+setLights();
+drawChart();
+
+
+setInterval(function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+	if (this.readyState == 4 && this.status == 200) {
+	    var data = JSON.parse(this.responseText);
+	    document.getElementById("timeanddate").innerHTML = data.td;
+	    document.getElementById("devicename").innerHTML = data.device;
+	    document.getElementById("co2").innerHTML =  data.co2;
+	    document.getElementById("rH").innerHTML =  data.rh;
+	    document.getElementById("temperature").innerHTML =  data.t;
+	    document.getElementById("yellow").innerHTML =  data.y;
+	    document.getElementById("red").innerHTML =  data.r;
+	    setLights();
+	}
+    };
+    xhttp.open("GET", "/getData", true);
+    xhttp.timeout=1000;
+    xhttp.send();  
+}, 5000);
+
+setInterval(function() {
+    var td = document.getElementById('timeanddate').innerHTML;
+   document.getElementById('timeanddate').innerHTML = advanceTimedate(td);
+}, 1000);
+					  
+function setLights() {
+    document.getElementById("trafficlight").className =document.getElementById("trafficlight").className.replace (/(?:^|\s)MyClass(?!\S)/g , '' );
+    var c=Number(document.getElementById("co2").innerHTML);
+    var yellow=Number(document.getElementById("yellow").innerHTML);
+    var red=Number(document.getElementById("red").innerHTML);
+
+    document.getElementById("trafficlight").className =" css-ampel";
+
+    if(c < yellow) {
+	document.getElementById("trafficlight").className =" css-ampel ampelgruen";
+    }
+    if (c >= yellow) {
+	document.getElementById("trafficlight").className =" css-ampel ampelgruen ampelgelb";
+    }
+    if (c>red) {
+	document.getElementById("trafficlight").className =" css-ampel ampelgruen ampelgelb ampelrot";
+    }
+}
+
+setInterval(function ( ) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+var val = JSON.parse(this.responseText);
+console.log(val, this.responseText);
+            mdata.push(" " + val.data);
+           mlabel.push(" " + val.labels);
+           drawChart();
+	}
+    };
+    xhttp.open("GET", "/getNextChartEntry", true);
+    xhttp.timeout=1000;
+    xhttp.send();
+}, 30000 ) ;
+
+
+window.addEventListener('load', (event) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+            measurements = JSON.parse(this.responseText);
+            mdata = measurements.data;
+            mlabel= measurements.labels;
+	    drawChart();
+	}
+    };
+    xhttp.open("GET", "/getChartData", true);
+    xhttp.timeout=1000;
+
+    xhttp.send();
+});
+
+function drawChart( ) {
+
+    console.log(measurements.data);
+    console.log(measurements.labels);
+
+    var ctx = document.getElementById("Chart").getContext('2d');
+    var Chart2 = new Chart(ctx, {
+	type: 'line',
+	data: {
+	    labels: mlabel,	//Bottom Labeling
+	    datasets: [{
+		label: "CO2-Messwerte (Werte sind gemittelt)",
+		fill: true,	//Try with true
+		backgroundColor: 'rgba( 50, 214, 214, 0.4)', //Dot marker color
+		borderColor: 'rgba( 50, 214, 214, 0.4)',	//Graph Line Color
+		data: mdata
+	    }],
+	},
+	options: {
+	    title: {
+		display: true,
+		text: "CO2 [ppm]"
+	    },
+	    maintainAspectRatio: false,
+	    elements: {
+		line: {
+		    tension: 0.5 //Smoothening (Curved) of data lines
+		}
+	    },
+	    animation: {
+		duration: 0,
+	    },
+
+	    scales: {
+		yAxes: [{
+		    ticks: {
+			beginAtZero:false, suggestedMin:350, suggestedMax:1500
+		    }
+		}]
+	    }
+	}
+    });
+
+
+};
+</script>
+</html>
